@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="16dp"
+    android:background="#273746 ">
+
+    <!-- Título AgroSmart -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AgroSmart"
+        android:textSize="32sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="@drawable/rounded_background"/>
+
+    <!-- Layout para los datos de los sensores (Horizontal) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <!-- Cuadro de Temperatura -->
+        <LinearLayout
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_background"
+            android:padding="16dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textViewTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17°C"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temperatura"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center"
+                android:paddingTop="4dp" />
+        </LinearLayout>
+
+        <!-- Cuadro de Humedad -->
+        <LinearLayout
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_background"
+            android:padding="16dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textViewHumidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20%"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humedad"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center"
+                android:paddingTop="4dp" />
+        </LinearLayout>
+
+        <!-- Cuadro de Luz -->
+        <LinearLayout
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_background"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textViewLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sí"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Luz"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center"
+                android:paddingTop="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Sección de Acciones -->
+    <TextView
+        android:id="@+id/tvActions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Acciones"
+        android:textSize="20sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/rounded_background"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:padding="6dp"
+        android:layout_marginTop="40dp" /> <!-- Espacio superior de 32dp -->/>
+
+    <!-- Botones de acciones -->
+    <Button
+        android:id="@+id/btnToggleLights"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:text="On/Off Luces"
+        android:textColor="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/cuadro_redondo_gris" />
+
+    <Button
+        android:id="@+id/btnToggleAir"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:text="On/Off Aire"
+        android:background="@drawable/cuadro_redondo_gris"
+        android:textColor="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnToggleWater"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:text="On/Off Riego"
+        android:background="@drawable/cuadro_redondo_gris"
+        android:textColor="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Botón para obtener datos -->
+    <Button
+        android:id="@+id/btnGetData"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:text="Obtener Datos"
+        android:textSize="24sp"
+        android:background="@drawable/cuadro_redondo_gris"
+        android:textColor="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="100dp" />
+
+</LinearLayout>

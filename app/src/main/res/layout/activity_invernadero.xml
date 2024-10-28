@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Título en la parte superior -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AgroSmart"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="16dp"/>
+
+        <!-- Tarjeta para Temperatura -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#FFCDD2"
+            android:elevation="4dp"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Temperatura"
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
+
+                <TextView
+                    android:id="@+id/tvTemperatura"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25°C"
+                    android:textSize="32sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Tarjeta para Humedad -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#BBDEFB"
+            android:elevation="4dp"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Humedad"
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
+
+                <TextView
+                    android:id="@+id/tvHumedad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="60%"
+                    android:textSize="32sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Tarjeta para Luz -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#C8E6C9"
+            android:elevation="4dp"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Luz"
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
+
+                <TextView
+                    android:id="@+id/tvLuz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Encendida"
+                    android:textSize="32sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Botones para acciones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnRiego"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Encender Sistema de Riego"
+                android:textSize="18sp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#FFAB91"/>
+
+            <Button
+                android:id="@+id/btnLuces"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Encender Luces"
+                android:textSize="18sp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#80CBC4"/>
+
+            <Button
+                android:id="@+id/btnApagarLuces"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apagar Luces"
+                android:textSize="18sp"
+                android:backgroundTint="#E57373"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+
