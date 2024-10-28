@@ -142,14 +142,14 @@
         android:textColor="#FFFFFF"
         android:padding="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/cuadro_redondo_gris" />
+        android:backgroundTint="#808080" />
 
     <Button
         android:id="@+id/btnToggleAir"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:text="On/Off Aire"
-        android:background="@drawable/cuadro_redondo_gris"
+        android:backgroundTint="#808080"
         android:textColor="#FFFFFF"
         android:padding="16dp"
         android:layout_marginTop="16dp" />
@@ -159,7 +159,7 @@
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:text="On/Off Riego"
-        android:background="@drawable/cuadro_redondo_gris"
+        android:backgroundTint="#808080"
         android:textColor="#FFFFFF"
         android:padding="16dp"
         android:layout_marginTop="16dp" />
@@ -171,7 +171,7 @@
         android:layout_height="70dp"
         android:text="Obtener Datos"
         android:textSize="24sp"
-        android:background="@drawable/cuadro_redondo_gris"
+        android:backgroundTint="#2196F3"
         android:textColor="#FFFFFF"
         android:padding="16dp"
         android:layout_marginTop="100dp" />
