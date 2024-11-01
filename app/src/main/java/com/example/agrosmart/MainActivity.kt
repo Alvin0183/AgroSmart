@@ -1,7 +1,8 @@
 package com.example.agrosmart
 
-import android.os.AsyncTask
 import android.os.Bundle
+import android.os.AsyncTask
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -14,108 +15,102 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
-    // Declaración de las variables de la UI
-    private lateinit var textViewTemperature: TextView  // TextView para mostrar la temperatura
-    private lateinit var textViewHumidity: TextView     // TextView para mostrar la humedad
-    private lateinit var textViewLight: TextView        // TextView para mostrar el estado de la luz
-    private lateinit var btnToggleLights: Button        // Botón para encender/apagar las luces
-    private lateinit var btnToggleAir: Button           // Botón para encender/apagar el aire
-    private lateinit var btnToggleWater: Button         // Botón para encender/apagar el riego
-    private lateinit var btnGetData: Button             // Botón para obtener los datos de los sensores
+    // Declaración de variables de la UI
+    private lateinit var textViewTemperature: TextView
+    private lateinit var textViewHumidity: TextView
+    private lateinit var textViewLight: TextView
+    private lateinit var btnToggleLights: Button
+    private lateinit var btnToggleAir: Button
+    private lateinit var btnToggleWater: Button
+    private lateinit var btnGetData: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Inicializamos las variables con los componentes de la UI
-        textViewTemperature = findViewById(R.id.textViewTemperature)  // Conectamos el TextView de la temperatura
-        textViewHumidity = findViewById(R.id.textViewHumidity)        // Conectamos el TextView de la humedad
-        textViewLight = findViewById(R.id.textViewLight)              // Conectamos el TextView del estado de la luz
-        btnToggleLights = findViewById(R.id.btnToggleLights)         // Conectamos el botón de las luces
-        btnToggleAir = findViewById(R.id.btnToggleAir)               // Conectamos el botón del aire
-        btnToggleWater = findViewById(R.id.btnToggleWater)           // Conectamos el botón del riego
-        btnGetData = findViewById(R.id.btnGetData)                   // Conectamos el botón para obtener datos
+        // Inicialización de las variables de la UI
+        textViewTemperature = findViewById(R.id.textViewTemperature)
+        textViewHumidity = findViewById(R.id.textViewHumidity)
+        textViewLight = findViewById(R.id.textViewLight)
+        btnToggleLights = findViewById(R.id.btnToggleLights)
+        btnToggleAir = findViewById(R.id.btnToggleAir)
+        btnToggleWater = findViewById(R.id.btnToggleWater)
+        btnGetData = findViewById(R.id.btnGetData)
 
-        // Configuramos los listeners de los botones para enviar comandos al Arduino
+        // Cargar los datos al hacer clic en el botón "Obtener Datos"
+        btnGetData.setOnClickListener {
+            getDataFromArduino()
+        }
+
+        // Configurar los botones para enviar comandos al Arduino
         btnToggleLights.setOnClickListener {
-            sendCommandToArduino("L")  // Enviar comando 'L' para activar/desactivar la luz
+            sendCommandToArduino("/toggle_light")
         }
 
         btnToggleAir.setOnClickListener {
-            sendCommandToArduino("V")  // Enviar comando 'V' para activar/desactivar el ventilador
+            sendCommandToArduino("/toggle_ventilator")
         }
 
         btnToggleWater.setOnClickListener {
-            sendCommandToArduino("R")  // Enviar comando 'R' para activar/desactivar el riego
-        }
-
-        btnGetData.setOnClickListener {
-            getDataFromArduino()  // Obtener los datos de los sensores desde el Arduino
+            sendCommandToArduino("/toggle_water")
         }
     }
 
-    // Método para enviar comandos HTTP al Arduino
-    private fun sendCommandToArduino(command: String) {
-        val url = "http://192.168.4.1/$command"  // URL del Arduino (hotspot) con el comando a enviar
+    // Función para obtener los datos del Arduino mediante una solicitud GET
+    private fun getDataFromArduino() {
+        val url = "http://192.168.4.1/getData"  // Dirección IP del Arduino
         AsyncTask.execute {
             try {
-                val connection = URL(url).openConnection() as HttpURLConnection  // Abrimos la conexión HTTP
-                connection.requestMethod = "GET"  // Establecemos el método de la petición como GET
-                connection.connect()  // Conectamos al servidor
-                val responseCode = connection.responseCode  // Obtenemos el código de respuesta
-                if (responseCode == HttpURLConnection.HTTP_OK) {  // Si la respuesta es exitosa
-                    runOnUiThread {
-                        Toast.makeText(this, "Comando enviado: $command", Toast.LENGTH_SHORT).show()  // Mostramos un mensaje de confirmación
-                    }
-                } else {
-                    runOnUiThread {
-                        Toast.makeText(this, "Error al enviar el comando", Toast.LENGTH_SHORT).show()  // Mostramos un mensaje de error
-                    }
+                val connection = URL(url).openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+                val reader = BufferedReader(InputStreamReader(connection.inputStream))
+                val response = reader.readLine()
+                reader.close()
+
+                // Parsear la respuesta JSON
+                val jsonObject = JSONObject(response)
+                val temperature = jsonObject.getInt("temperature")
+                val humidity = jsonObject.getInt("humidity")
+                val light = jsonObject.getInt("light")
+
+                // Actualizar la UI en el hilo principal
+                runOnUiThread {
+                    textViewTemperature.text = "Temperatura: $temperature°C"
+                    textViewHumidity.text = "Humedad: $humidity%"
+                    textViewLight.text = "Luz: $light"
                 }
             } catch (e: Exception) {
-                e.printStackTrace()  // Imprimimos el error en el log
+                Log.e("MainActivity", "Error al obtener datos: ${e.message}")
                 runOnUiThread {
-                    Toast.makeText(this, "Error de conexión", Toast.LENGTH_SHORT).show()  // Mostramos un mensaje de error de conexión
+                    Toast.makeText(this, "Error de conexión: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
-
-    // Método para obtener datos de los sensores desde el Arduino
-    private fun getDataFromArduino() {
-        val url = "http://192.168.4.1/getData"  // URL del endpoint que devuelve los datos de los sensores
+    // Función para enviar comandos al Arduino
+    private fun sendCommandToArduino(endpoint: String) {
+        val url = "http://192.168.4.1$endpoint"  // Dirección IP del Arduino + endpoint
         AsyncTask.execute {
             try {
-                val connection = URL(url).openConnection() as HttpURLConnection  // Abrimos la conexión HTTP
-                connection.requestMethod = "GET"  // Establecemos el método de la petición como GET
-                connection.connect()  // Conectamos al servidor
+                val connection = URL(url).openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.connect()
 
-                if (connection.responseCode == HttpURLConnection.HTTP_OK) {  // Si la respuesta es exitosa
-                    val inputStream = connection.inputStream  // Obtenemos el stream de datos
-                    val reader = BufferedReader(InputStreamReader(inputStream))  // Creamos un lector para leer los datos
-                    val response = reader.readLine()  // Leemos la línea de respuesta
-
-                    // Parsear la respuesta recibida (por ejemplo, L:100,T:25,H:45)
-                    val data = response.split(",")  // Dividimos la respuesta en partes usando la coma como delimitador
-                    val luz = data[0].split(":")[1].toInt()  // Obtenemos el valor de luz
-                    val temperatura = data[1].split(":")[1].toInt()  // Obtenemos el valor de la temperatura
-                    val humedad = data[2].split(":")[1].toInt()  // Obtenemos el valor de la humedad
-
-                    // Actualizamos la UI con los datos
+                // Verificar la respuesta del servidor
+                val responseCode = connection.responseCode
+                if (responseCode == 200) {
                     runOnUiThread {
-                        textViewTemperature.text = "$temperatura°C"  // Mostramos la temperatura en el TextView
-                        textViewHumidity.text = "$humedad%"  // Mostramos la humedad en el TextView
-                        textViewLight.text = if (luz > 0) "Encendida" else "Apagada"  // Mostramos el estado de la luz en el TextView
+                        Toast.makeText(this, "Comando enviado correctamente", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     runOnUiThread {
-                        Toast.makeText(this, "Error al obtener datos del Arduino", Toast.LENGTH_SHORT).show()  // Mostramos un mensaje de error
+                        Toast.makeText(this, "Error al enviar comando", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()  // Imprimimos el error en el log
+                Log.e("MainActivity", "Error al enviar comando: ${e.message}")
                 runOnUiThread {
-                    Toast.makeText(this, "Error de conexión", Toast.LENGTH_SHORT).show()  // Mostramos un mensaje de error de conexión
+                    Toast.makeText(this, "Error de conexión: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
